@@ -18,11 +18,11 @@ It is also possible that a host key has just been changed.
 To get around this remove the key.
 
 ```sh
-$ ssh-keygen -R <YOUR-PI'S-IP>
+$ ssh-keygen -R <YOUR-DEVICE'S-IP>
 ```
 
 It will then work as expected
 
 ```sh
-$ @root<YOUR-PI'S-IP>
+$ @root<YOUR-DEVICE'S-IP>
 ```
