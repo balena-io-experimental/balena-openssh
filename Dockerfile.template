@@ -1,9 +1,9 @@
 FROM resin/%%RESIN_MACHINE_NAME%%-python
 MAINTAINER Shaun Mulligan <shaun@resin.io>
 
-RUN apt-get update && apt-get install -yq \
-    openssh-server && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -yq --no-install-recommends \
+    openssh-server \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /var/run/sshd \
     && echo 'root:resin' | chpasswd \
@@ -11,6 +11,7 @@ RUN mkdir /var/run/sshd \
     && sed -i 's/UsePAM yes/UsePAM no/' /etc/ssh/sshd_config
 
 ENV INITSYSTEM on
+
 COPY start.sh /start.sh
 COPY src/ /usr/src/app
 
