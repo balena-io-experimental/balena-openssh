@@ -2,7 +2,7 @@
 # this means the appropriate image gets picked for instance on rpi3, this would end up
 # resolving to resin/raspberrypi3-python:latest
 FROM resin/%%RESIN_MACHINE_NAME%%-debian
-MAINTAINER Shaun Mulligan <shaun@resin.io>
+MAINTAINER Shaun Mulligan <shaun@balena.io>
 
 # here we install apt dependencies. We also remove the apt lists in the same step,
 # this reduces the size of the docker image.
@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
 
 # here we set up the config for openSSH.
 RUN mkdir /var/run/sshd \
-    && echo 'root:resin' | chpasswd \
+    && echo 'root:balena' | chpasswd \
     && sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
     && sed -i 's/UsePAM yes/UsePAM no/' /etc/ssh/sshd_config
 

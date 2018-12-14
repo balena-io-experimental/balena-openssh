@@ -1,25 +1,25 @@
-## Simple OpenSSH on Resin.io
+## Simple OpenSSH on Balena.io
 
 This starts an openssh server on port 22. You can then ssh into the running container
-using `ssh root@<YOUR-DEVICE'S-IP>` the default password for `root` is `resin`.
+using `ssh root@<YOUR-DEVICE'S-IP>` the default password for `root` is `balena`.
 
 ### Usage
 
-This assumes you already have an account on resin.io, if you don't, then head over to our [Getting Started Guide][getting-started] and get yourself all set up.
+This assumes you already have an account on balena.io, if you don't, then head over to our [Getting Started Guide][getting-started] and get yourself all set up.
 
 1. Clone this repository and change into this directory:
 ```sh
-$ git clone https://github.com/resin-io-projects/resin-openssh.git && cd resin-openssh
+$ git clone https://github.com/balena-io-projects/balena-openssh.git && cd balena-openssh
 ```
 
-2. Add your resin.io application git remote:
+2. Add your balena.io application git remote:
 ```sh
-$ git remote add resin my_resin_username@git.resin.io:my_resin_username/myApplication.git
+$ git remote add balena my_balena_username@git.balena.io:my_balena_username/myApplication.git
 ```
 
 3. Deploy your code to the device(s):
 ```sh
-$ git push resin master
+$ git push balena master
 ```
 
 __Note:__ If you may need to use the `--force` option for the git push if you have previously deployed another repo to this application.
@@ -49,4 +49,4 @@ It will then work as expected
 $ root@<YOUR-DEVICE'S-IP>
 ```
 
-[resin-getting-started]:http://docs.resin.io/raspberrypi3/nodejs/getting-started/
+[getting-started]:https://www.balena.io/docs/learn/getting-started/raspberrypi3/nodejs/
