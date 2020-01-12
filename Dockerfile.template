@@ -1,7 +1,6 @@
 # This first line selects our base image. In this instance we use the dockerfile templates,
-# this means the appropriate image gets picked for instance on rpi3, this would end up
-# resolving to resin/raspberrypi3-python:latest
-FROM resin/%%RESIN_MACHINE_NAME%%-debian
+# this means the appropriate image gets picked.
+FROM ubuntu:16.04
 MAINTAINER Shaun Mulligan <shaun@balena.io>
 
 # here we install apt dependencies. We also remove the apt lists in the same step,
@@ -11,19 +10,14 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # here we set up the config for openSSH.
-RUN mkdir /var/run/sshd \
-    && echo 'root:balena' | chpasswd \
-    && sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
-    && sed -i 's/UsePAM yes/UsePAM no/' /etc/ssh/sshd_config
+RUN mkdir /var/run/sshd
+RUN echo 'root:balenaserver' | chpasswd
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-# We set the working directory for the next few commands
-WORKDIR /usr/src/app
+# SSH login fix. Otherwise user is kicked off after login
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 
-# here we copy all the root of our repo into the containers WORKDIR
-COPY . ./
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
 
-# Enable systemd init system in the container, so it never closes
-ENV INITSYSTEM on
-
-# Start.sh will run when the container starts
-CMD ["./src/start.sh"]
+CMD ["/usr/sbin/sshd", "-D"]
